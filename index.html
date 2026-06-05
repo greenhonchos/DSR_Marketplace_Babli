@@ -184,8 +184,13 @@
   .flatpickr-day.startRange.endRange { border-radius:8px !important; }
   .flatpickr-day.today { border-bottom:2px solid var(--green) !important; font-weight:700 !important; }
   .flatpickr-day.flatpickr-disabled,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay { color:#d1d5db !important; }
-  .fp-range-badge { text-align:center; padding:8px 14px 10px; font-size:11px; font-weight:600; color:var(--muted); border-top:1px solid var(--border); background:#fafafa; }
+  .fp-range-badge { text-align:center; padding:8px 14px 6px; font-size:11px; font-weight:600; color:var(--muted); border-top:1px solid var(--border); background:#fafafa; }
   .fp-range-badge span { color:var(--green); font-weight:700; }
+  .fp-footer { display:flex; justify-content:flex-end; gap:8px; padding:8px 12px 12px; background:#fafafa; }
+  .fp-apply-btn { font-family:inherit; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; padding:7px 18px; border-radius:8px; border:none; background:var(--green); color:#fff; transition:background .15s; }
+  .fp-apply-btn:hover { background:var(--green-dk,#048a6e); }
+  .fp-clear-btn { font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; color:var(--muted); transition:all .15s; }
+  .fp-clear-btn:hover { border-color:var(--down); color:var(--down); }
 
   @media(max-width:600px){.sec-hd{flex-direction:column;align-items:flex-start;gap:3px;} .sec-tag{font-size:9px;} .kpi-val{font-size:18px;}}
 </style>
@@ -227,7 +232,7 @@
 
   <div class="sec-hd" style="margin-top:0;">
     <span class="sec-title">Daily Brief</span>
-    <span class="sec-tag" id="heroDateTag">Latest Available · 4 Jun 2026 · Today is 5 Jun 2026</span>
+    <span class="sec-tag" id="heroDateTag">Latest Available · 4 Jun 2026 · Today is 6 Jun 2026</span>
   </div>
   <div class="hero">
     <div>
@@ -235,7 +240,7 @@
       <h1 class="hero-headline">Myntra delivered ₹378,467 on 4 Jun.<br>
         Units ▲ 5.4% D-o-D — volume growing.<br>
         <span class="accent">All channels active: zero revenue. Needs immediate attention.</span></h1>
-      <p class="hero-body">Latest available data is <strong>4 Jun 2026</strong> (today is 5 Jun 2026). Blended GMV was <strong>₹378,467</strong> on <strong>233 units</strong> — driven primarily by Myntra. Blended ROAS at <strong>55.71×</strong>, Myntra paid ROAS <strong>11.21×</strong>. MTD 1 Jun–4 Jun: <strong>₹1.4L</strong> on 885 units, spend ₹38,030.</p>
+      <p class="hero-body">Latest available data is <strong>4 Jun 2026</strong> (today is 6 Jun 2026). Blended GMV was <strong>₹378,467</strong> on <strong>233 units</strong> — driven primarily by Myntra. Blended ROAS at <strong>55.71×</strong>, Myntra paid ROAS <strong>11.21×</strong>. MTD 1 Jun–4 Jun: <strong>₹1.4L</strong> on 885 units, spend ₹38,030.</p>
       <div class="sources-row">
         <span class="sources-label">Sources</span>
         <span class="source-chip"><span class="sdot" style="background:#E91E8C"></span>Myntra</span>
@@ -459,7 +464,7 @@
   </div>
 
   <div class="footer">
-    <span class="footer-text"><strong>Daily Sales Report &nbsp;|&nbsp; Babli &nbsp;|&nbsp; Marketplace</strong> &nbsp;&nbsp;·&nbsp;&nbsp; GreenHonchos &nbsp;·&nbsp; Auto-generated &nbsp;·&nbsp; Today: 5 June 2026</span>
+    <span class="footer-text"><strong>Daily Sales Report &nbsp;|&nbsp; Babli &nbsp;|&nbsp; Marketplace</strong> &nbsp;&nbsp;·&nbsp;&nbsp; GreenHonchos &nbsp;·&nbsp; Auto-generated &nbsp;·&nbsp; Today: 6 June 2026</span>
     <div class="footer-pill">
       <span class="footer-pill-label">Prepared by</span>
       <img src="https://www.greenhonchos.com/wp-content/uploads/2024/04/Group-2@2x.png" alt="GreenHonchos" />
@@ -542,7 +547,8 @@ document.querySelectorAll('.ch-filter').forEach(btn => {
     document.querySelectorAll('.ch-filter').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const d = chData[btn.dataset.ch];
-    Object.values(chartRegistry).forEach(({0:instance, dataKey}) => {
+    Object.values(chartRegistry).forEach((entry) => {
+      const instance = entry.instance, dataKey = entry.dataKey;
       if(!instance) return;
       const nd = d[dataKey]||[];
       const ds = instance.data.datasets[0];
@@ -610,7 +616,8 @@ function applyDailyFilter(key,preAgg){
     <div class="vrow"><span class="vkey">Blended ROAS</span><span class="vval green">${v.blended}</span></div>`;
   const chs=[{key:'Myntra',dot:'ch-myntra'},{key:'Amazon',dot:'ch-amazon'},{key:'NykaaFashion',dot:'ch-nykaa'}];
   let rows='';
-  chs.forEach(({0:key,dot})=>{
+  chs.forEach((ch_item)=>{
+    const key=ch_item.key, dot=ch_item.dot;
     const c=d.channels[key];
     rows+=`<tr>
       <td><span class="ch-dot ${dot}"></span>${key}</td>
@@ -655,18 +662,47 @@ function aggregateRange(keys){
   return agg;
 }
 
-flatpickr('#dateFilter',{
+let _fpApplyPending = null;  // holds selected dates until Apply is clicked
+
+const fpInst = flatpickr('#dateFilter', {
   mode:'range', dateFormat:'d M Y', allowInput:false, clickOpens:true,
+  closeOnSelect:false,
   minDate:new Date('2026-05-29'), maxDate:new Date('2026-06-04'),
   defaultDate:[new Date('2026-06-04'),new Date('2026-06-04')],
   showMonths:1, disableMobile:false,
-  onReady(_,__,fp){const b=document.createElement('div');b.className='fp-range-badge';b.id='fpBadge';b.innerHTML='Showing: <span>Latest available data</span>';fp.calendarContainer.appendChild(b);},
-  onChange(sel){const b=document.getElementById('fpBadge');if(!b)return;
-    if(sel.length===1){const k=dateKeyMap[toISO(sel[0])];b.innerHTML='Selecting… <span>'+(dailyData[k]?.label||toISO(sel[0]))+'</span>';}
-    else if(sel.length===2){const days=keysInRange(toISO(sel[0]),toISO(sel[1])).length;b.innerHTML='Range: <span>'+days+' day'+(days!==1?'s':'')+'</span>';}},
-  onClose(sel){if(!sel.length)return;const s=toISO(sel[0]),e=sel[1]?toISO(sel[1]):s;
-    if(s===e){const k=dateKeyMap[s];if(k)applyDailyFilter(k);}
-    else{const keys=keysInRange(s,e),agg=aggregateRange(keys);if(agg)applyDailyFilter(null,agg);}},
+  onReady(_,__,fp){
+    // Badge row
+    const badge = document.createElement('div');
+    badge.className = 'fp-range-badge'; badge.id = 'fpBadge';
+    badge.innerHTML = 'Showing: <span>Latest available data</span>';
+    fp.calendarContainer.appendChild(badge);
+    // Apply button row
+    const footer = document.createElement('div');
+    footer.className = 'fp-footer';
+    const applyBtn = document.createElement('button');
+    applyBtn.className = 'fp-apply-btn'; applyBtn.textContent = 'Apply';
+    applyBtn.addEventListener('click', () => {
+      if (!_fpApplyPending || !_fpApplyPending.length) return;
+      const sel = _fpApplyPending;
+      const s = toISO(sel[0]), e = sel[1] ? toISO(sel[1]) : s;
+      fp.close();
+      if (s === e) { const k = dateKeyMap[s]; if (k) applyDailyFilter(k); }
+      else { const keys = keysInRange(s,e), agg = aggregateRange(keys); if (agg) applyDailyFilter(null,agg); }
+    });
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'fp-clear-btn'; clearBtn.textContent = 'Clear';
+    clearBtn.addEventListener('click', () => { _fpApplyPending=null; fp.clear(); fp.close(); });
+    footer.appendChild(clearBtn); footer.appendChild(applyBtn);
+    fp.calendarContainer.appendChild(footer);
+  },
+  onChange(sel){
+    _fpApplyPending = sel.length ? sel : null;
+    const b=document.getElementById('fpBadge'); if(!b) return;
+    if(sel.length===1){const k=dateKeyMap[toISO(sel[0])];b.innerHTML='Selected: <span>'+(dailyData[k]?.label||toISO(sel[0]))+'</span>';}
+    else if(sel.length===2){const days=keysInRange(toISO(sel[0]),toISO(sel[1])).length;b.innerHTML='Range: <span>'+days+' day'+(days!==1?'s':'')+' — click Apply</span>';}
+  },
+  // Do NOT apply on close — only the Apply button triggers the filter
+  onClose(){ /* intentionally empty */ },
 });
 
 applyDailyFilter('20260604');
