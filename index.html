@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Babli · Marketplace Daily Briefing — GreenHonchos</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root {
@@ -28,21 +26,12 @@
   .brand-avatar img { width:100%; height:100%; object-fit:contain; padding:4px; }
   .brand-name { font-size:14px; font-weight:800; color:var(--dark); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .brand-sub  { font-size:9.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
-  .header-right { display:flex; align-items:center; gap:0; flex-shrink:0; }
-  .date-filter-wrap { display:flex; align-items:center; gap:10px; padding-right:16px; margin-right:16px; border-right:1.5px solid var(--border); }
-  .date-filter-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
-  .date-input-wrap { position:relative; display:inline-flex; align-items:center; }
-  .date-input-wrap .cal-icon { position:absolute; left:10px; pointer-events:none; color:var(--green); display:flex; align-items:center; }
-  .date-input { font-family:inherit; font-size:12px; font-weight:700; color:var(--dark); background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:7px 12px 7px 32px; cursor:pointer; transition:border-color .15s,box-shadow .15s; min-width:220px; }
-  .date-input:focus { outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(5,160,129,.12); }
-  .date-input:hover { border-color:var(--green); }
-  .gh-right { display:flex; align-items:center; gap:8px; }
+  .header-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .header-date { font-size:12px; font-weight:700; color:var(--muted); }
   .prepared-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
   .gh-pill { display:inline-flex; align-items:center; background:var(--dark); padding:5px 11px; border-radius:20px; }
   .gh-pill img { height:16px; filter:brightness(0) invert(1); }
-  @media(max-width:640px){ .header{flex-direction:column;align-items:flex-start;gap:12px;} .header-right{align-items:flex-start;} }
-  @media(max-width:760px){ .date-filter-label{display:none;} .date-input{min-width:180px;font-size:11px;} }
-  @media(max-width:580px){ .header-right{flex-direction:column;align-items:flex-end;gap:8px;} .date-filter-wrap{border-right:none;padding-right:0;margin-right:0;} }
+  @media(max-width:640px){ .header{flex-direction:column;align-items:flex-start;gap:12px;} }
 
   /* PAGE */
   .page { padding:16px 0 56px; }
@@ -164,33 +153,6 @@
   .footer-pill-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.6); }
   .footer-pill img { height:18px; filter:brightness(0) invert(1); }
 
-  /* FLATPICKR THEME */
-  .flatpickr-calendar { font-family:'Helvetica Neue',Helvetica,Arial,sans-serif !important; border-radius:14px !important; box-shadow:0 8px 32px rgba(0,0,0,.14) !important; border:1px solid var(--border) !important; overflow:hidden; }
-  .flatpickr-months { background:var(--dark) !important; padding:8px 0 6px; }
-  .flatpickr-months .flatpickr-month { color:#fff !important; fill:#fff !important; }
-  .flatpickr-current-month { font-size:13px !important; font-weight:700 !important; color:#fff !important; }
-  .flatpickr-monthDropdown-months { background:var(--dark) !important; color:#fff !important; }
-  .flatpickr-prev-month,.flatpickr-next-month { color:#fff !important; fill:#fff !important; padding:8px 10px !important; }
-  .flatpickr-prev-month:hover svg,.flatpickr-next-month:hover svg { fill:var(--green) !important; }
-  .flatpickr-weekdays { background:#f8fafc !important; padding:4px 0; }
-  .flatpickr-weekday { color:var(--muted) !important; font-size:10px !important; font-weight:700 !important; letter-spacing:.08em; }
-  .flatpickr-days { border:none !important; }
-  .flatpickr-day { border-radius:8px !important; font-size:12px !important; font-weight:500; color:var(--dark); border:none !important; margin:1px !important; width:34px !important; max-width:34px !important; height:34px !important; line-height:34px !important; }
-  .flatpickr-day:hover { background:var(--green-lt) !important; color:var(--green) !important; }
-  .flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange { background:var(--green) !important; border-color:var(--green) !important; color:#fff !important; border-radius:8px !important; }
-  .flatpickr-day.inRange { background:var(--green-lt) !important; color:var(--green) !important; box-shadow:none !important; border-radius:0 !important; }
-  .flatpickr-day.startRange { border-radius:8px 0 0 8px !important; }
-  .flatpickr-day.endRange { border-radius:0 8px 8px 0 !important; }
-  .flatpickr-day.startRange.endRange { border-radius:8px !important; }
-  .flatpickr-day.today { border-bottom:2px solid var(--green) !important; font-weight:700 !important; }
-  .flatpickr-day.flatpickr-disabled,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay { color:#d1d5db !important; }
-  .fp-range-badge { text-align:center; padding:8px 14px 6px; font-size:11px; font-weight:600; color:var(--muted); border-top:1px solid var(--border); background:#fafafa; }
-  .fp-range-badge span { color:var(--green); font-weight:700; }
-  .fp-footer { display:flex; justify-content:flex-end; gap:8px; padding:8px 12px 12px; background:#fafafa; }
-  .fp-apply-btn { font-family:inherit; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; padding:7px 18px; border-radius:8px; border:none; background:var(--green); color:#fff; transition:background .15s; }
-  .fp-apply-btn:hover { background:var(--green-dk,#048a6e); }
-  .fp-clear-btn { font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; padding:7px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; color:var(--muted); transition:all .15s; }
-  .fp-clear-btn:hover { border-color:var(--down); color:var(--down); }
 
   @media(max-width:600px){.sec-hd{flex-direction:column;align-items:flex-start;gap:3px;} .sec-tag{font-size:9px;} .kpi-val{font-size:18px;}}
 </style>
@@ -207,23 +169,11 @@
     </div>
   </div>
   <div class="header-right">
-    <div class="date-filter-wrap">
-      <span class="date-filter-label">Date</span>
-      <div class="date-input-wrap">
-        <span class="cal-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </span>
-        <input type="text" class="date-input" id="dateFilter" placeholder="Select date or range" />
-      </div>
-    </div>
-    <div class="gh-right">
-      <span class="prepared-label">Prepared by</span>
-      <span class="gh-pill">
-        <img src="https://www.greenhonchos.com/wp-content/uploads/2024/04/Group-2@2x.png" alt="GreenHonchos" />
-      </span>
-    </div>
+    <div class="header-date">5 Jun 2026 · Yesterday</div>
+    <span class="prepared-label">Prepared by</span>
+    <span class="gh-pill">
+      <img src="https://www.greenhonchos.com/wp-content/uploads/2024/04/Group-2@2x.png" alt="GreenHonchos" />
+    </span>
   </div>
 </header>
 </div>
@@ -232,15 +182,15 @@
 
   <div class="sec-hd" style="margin-top:0;">
     <span class="sec-title">Daily Brief</span>
-    <span class="sec-tag" id="heroDateTag">Latest Available · 4 Jun 2026 · Today is 6 Jun 2026</span>
+    <span class="sec-tag" id="heroDateTag">Latest Available · 5 Jun 2026 · Today is 6 Jun 2026</span>
   </div>
   <div class="hero">
     <div>
       <div class="hero-eyebrow">Daily Brief · Myntra · Amazon · NykaaFashion</div>
-      <h1 class="hero-headline">Myntra delivered ₹378,467 on 4 Jun.<br>
-        Units ▲ 5.4% D-o-D — volume growing.<br>
-        <span class="accent">All channels active: zero revenue. Needs immediate attention.</span></h1>
-      <p class="hero-body">Latest available data is <strong>4 Jun 2026</strong> (today is 6 Jun 2026). Blended GMV was <strong>₹378,467</strong> on <strong>233 units</strong> — driven primarily by Myntra. Blended ROAS at <strong>55.71×</strong>, Myntra paid ROAS <strong>11.21×</strong>. MTD 1 Jun–4 Jun: <strong>₹1.4L</strong> on 885 units, spend ₹38,030.</p>
+      <h1 class="hero-headline">Myntra delivered ₹328,388 on 5 Jun.<br>
+        Units ▼ 15.5% D-o-D — volume dipped.<br>
+        <span class="accent">Amazon: zero revenue. Needs immediate attention.</span></h1>
+      <p class="hero-body">Latest available data is <strong>5 Jun 2026</strong> (today is 6 Jun 2026). Blended GMV was <strong>₹328,388</strong> on <strong>197 units</strong> — driven primarily by Myntra. Blended ROAS at <strong>3.99×</strong> (paid), Overall ROI <strong>18.56×</strong> (total revenue). MTD 1 Jun–5 Jun: <strong>₹1.8L</strong> on 1082 units, spend ₹55,725.</p>
       <div class="sources-row">
         <span class="sources-label">Sources</span>
         <span class="source-chip"><span class="sdot" style="background:#E91E8C"></span>Myntra</span>
@@ -249,21 +199,22 @@
       </div>
     </div>
     <div class="verdict-panel" id="verdictPanel">
-      <div class="verdict-label">Daily Verdict · 4 Jun 2026</div>
-      <div class="verdict-tag">Myntra Strong · Fix Amazon + Nykaa</div>
-      <div class="vrow"><span class="vkey">Revenue</span><span class="vval green">₹378,467</span></div>
-      <div class="vrow"><span class="vkey">Units Sold</span><span class="vval">233</span></div>
-      <div class="vrow"><span class="vkey">Ad Spend</span><span class="vval">₹6,793</span></div>
-      <div class="vrow"><span class="vkey">ASP</span><span class="vval">₹1,624</span></div>
-      <div class="vrow"><span class="vkey">Myntra ROAS</span><span class="vval green">11.21×</span></div>
-      <div class="vrow"><span class="vkey">Amazon ROAS</span><span class="vval muted">0×</span></div>
+      <div class="verdict-label">Daily Verdict · 5 Jun 2026</div>
+      <div class="verdict-tag">Efficiency Watch · Fix Amazon + Nykaa</div>
+      <div class="vrow"><span class="vkey">Revenue</span><span class="vval green">₹328,388</span></div>
+      <div class="vrow"><span class="vkey">Units Sold</span><span class="vval">197</span></div>
+      <div class="vrow"><span class="vkey">Ad Spend</span><span class="vval">₹17,695</span></div>
+      <div class="vrow"><span class="vkey">ASP</span><span class="vval">₹1,667</span></div>
+      <div class="vrow"><span class="vkey">Myntra ROAS</span><span class="vval down">3.99×</span></div>
+      <div class="vrow"><span class="vkey">Amazon ROAS</span><span class="vval muted">— No Sales</span></div>
       <div class="vrow"><span class="vkey">Nykaa ROAS</span><span class="vval muted">0×</span></div>
-      <div class="vrow"><span class="vkey">Blended ROAS</span><span class="vval green">55.71×</span></div></div>
+      <div class="vrow"><span class="vkey">Blended ROAS</span><span class="vval green">3.99×</span></div>
+      <div class="vrow"><span class="vkey">Overall ROI</span><span class="vval">18.56×</span></div></div>
   </div>
 
   <div class="sec-hd">
     <span class="sec-title">Channel Performance</span>
-    <span class="sec-tag" id="chPerfTag">Latest Available · 4 Jun 2026 · vs 3 Jun 2026 (D-o-D)</span>
+    <span class="sec-tag" id="chPerfTag">Latest Available · 5 Jun 2026 · vs 4 Jun 2026 (D-o-D)</span>
   </div>
   <div class="table-card"><div class="table-scroll">
     <table>
@@ -275,99 +226,99 @@
       <tbody id="chTableBody">
         <tr>
           <td><span class="ch-dot ch-myntra"></span>Myntra</td>
-          <td>231</td>
-          <td>₹375,703</td>
-          <td>₹1,626</td>
-          <td>₹6,793</td>
-          <td>45</td>
-          <td>₹76,153</td>
-          <td>11.21×</td>
-          <td><span class="pill pill-up">▲ 4.5%</span></td>
-          <td><span class="pill pill-up">▲ 5.9%</span></td>
-          <td><span class="pill pill-up">▲ 18.8%</span></td>
+          <td>195</td>
+          <td>₹325,537</td>
+          <td>₹1,669</td>
+          <td>₹17,695</td>
+          <td>43</td>
+          <td>₹70,658</td>
+          <td>3.99×</td>
+          <td><span class="pill pill-dn">▼ 15.6%</span></td>
+          <td><span class="pill pill-dn">▼ 13.4%</span></td>
+          <td><span class="pill pill-dn">▼ 69.2%</span></td>
         </tr>
         <tr>
           <td><span class="ch-dot ch-amazon"></span>Amazon</td>
-          <td>1</td>
-          <td>₹1,576</td>
-          <td>₹1,576</td>
+          <td>0</td>
+          <td>₹0</td>
+          <td>—</td>
           <td>₹0</td>
           <td>0</td>
           <td>₹0</td>
           <td>—</td>
-          <td><span class="pill pill-gray">—</span></td>
-          <td><span class="pill pill-gray">—</span></td>
+          <td><span class="pill pill-dn">▼ 100.0%</span></td>
+          <td><span class="pill pill-dn">▼ 100.0%</span></td>
           <td><span class="pill pill-gray">—</span></td>
         </tr>
         <tr>
           <td><span class="ch-dot ch-nykaa"></span>NykaaFashion</td>
-          <td>1</td>
-          <td>₹1,188</td>
-          <td>₹1,188</td>
+          <td>2</td>
+          <td>₹2,851</td>
+          <td>₹1,426</td>
           <td>₹0</td>
           <td>0</td>
           <td>₹0</td>
           <td>—</td>
-          <td><span class="pill pill-gray">—</span></td>
-          <td><span class="pill pill-gray">—</span></td>
+          <td><span class="pill pill-up">▲ 100.0%</span></td>
+          <td><span class="pill pill-up">▲ 140.0%</span></td>
           <td><span class="pill pill-gray">—</span></td>
         </tr>
         <tr>
           <td><span class="ch-dot ch-total"></span><strong>Total</strong></td>
-          <td><strong>233</strong></td>
-          <td><strong>₹378,467</strong></td>
-          <td><strong>₹1,624</strong></td>
-          <td><strong>₹6,793</strong></td>
-          <td><strong>45</strong></td>
-          <td><strong>₹76,153</strong></td>
-          <td><strong>11.21×</strong></td>
-          <td><span class="pill pill-up">▲ 5.4%</span></td>
-          <td><span class="pill pill-up">▲ 6.6%</span></td>
-          <td><span class="pill pill-up">▲ 18.8%</span></td>
+          <td><strong>197</strong></td>
+          <td><strong>₹328,388</strong></td>
+          <td><strong>₹1,667</strong></td>
+          <td><strong>₹17,695</strong></td>
+          <td><strong>43</strong></td>
+          <td><strong>₹70,658</strong></td>
+          <td><strong>3.99×</strong></td>
+          <td><span class="pill pill-dn">▼ 15.5%</span></td>
+          <td><span class="pill pill-dn">▼ 13.2%</span></td>
+          <td><span class="pill pill-dn">▼ 69.2%</span></td>
         </tr></tbody>
     </table>
   </div></div>
 
   <div class="sec-hd">
     <span class="sec-title">MTD Key Metrics</span>
-    <span class="sec-tag">1 Jun–4 Jun 2026 · Month-to-Date · vs same period 1 May–4 May last month</span>
+    <span class="sec-tag">1 Jun–5 Jun 2026 · Month-to-Date · vs same period 1 May–5 May last month</span>
   </div>
   <div class="kpi-grid">
     <div class="kpi-card">
       <div class="kpi-lbl">MTD Ad Spend</div>
-      <div class="kpi-val">₹38,030</div>
-      <div class="kpi-delta down">▼ 2.7% vs 1 May–4 May</div>
-      <div class="kpi-sub">1 May–4 May was ₹39,089</div>
+      <div class="kpi-val">₹55,725</div>
+      <div class="kpi-delta up">▲ 4.4% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was ₹53,352</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-lbl">MTD Revenue</div>
-      <div class="kpi-val">₹1.4L</div>
-      <div class="kpi-delta up">▲ 42.7% vs 1 May–4 May</div>
-      <div class="kpi-sub">1 May–4 May was ₹1.0L</div>
+      <div class="kpi-val">₹1.8L</div>
+      <div class="kpi-delta up">▲ 35.0% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was ₹1.3L</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-lbl">Units Sold</div>
-      <div class="kpi-val">885</div>
-      <div class="kpi-delta up">▲ 41.1% vs 1 May–4 May</div>
-      <div class="kpi-sub">1 May–4 May was 627 units</div>
+      <div class="kpi-val">1082</div>
+      <div class="kpi-delta up">▲ 33.6% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was 810 units</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-lbl">Blended ROAS</div>
-      <div class="kpi-val">37.84×</div>
-      <div class="kpi-delta up">▲ 46.7% vs 1 May–4 May</div>
-      <div class="kpi-sub">1 May–4 May was 25.8×</div>
+      <div class="kpi-val">7.08×</div>
+      <div class="kpi-delta down">▼ 42.0% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was 12.2× · Paid Rev / Spend</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-lbl">Avg ASP</div>
-      <div class="kpi-val">₹1,626</div>
-      <div class="kpi-delta up">▲ 1.1% vs 1 May–4 May</div>
-      <div class="kpi-sub">1 May–4 May was ₹1,609</div>
+      <div class="kpi-val">₹1,634</div>
+      <div class="kpi-delta up">▲ 1.1% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was ₹1,617</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-lbl">Overall ROI</div>
-      <div class="kpi-val">37.84×</div>
-      <div class="kpi-delta up">▲ 46.7% vs 1 May–4 May</div>
-      <div class="kpi-sub">Revenue / Total Spend 1 Jun–4 Jun</div>
+      <div class="kpi-val">31.72×</div>
+      <div class="kpi-delta up">▲ 29.2% vs 1 May–5 May</div>
+      <div class="kpi-sub">1 May–5 May was 24.55× · Total Rev / Spend</div>
     </div></div>
 
   <div class="sec-hd">
@@ -383,12 +334,12 @@
     <div class="insight-card warn">
       <div class="ins-tag">⚠ Efficiency Alert</div>
       <div class="ins-title">Myntra Paid ROAS Below 10× — Watch Closely</div>
-      <div class="ins-body">Myntra paid ROAS at 11.21×. Audit campaign targeting and bid strategy to improve efficiency.</div>
+      <div class="ins-body">Myntra paid ROAS at 3.99×. Audit campaign targeting and bid strategy to improve efficiency.</div>
     </div>
     <div class="insight-card info">
       <div class="ins-tag">✅ GH Opportunity</div>
-      <div class="ins-title">MTD ROAS at 37.84× — Well Ahead of Last Month</div>
-      <div class="ins-body">June MTD ROAS of 37.84× is outperforming the same period last month (25.8×). Good window to scale Myntra budget.</div>
+      <div class="ins-title">MTD ROAS at 7.08× — Well Ahead of Last Month</div>
+      <div class="ins-body">June MTD ROAS of 7.08× is outperforming the same period last month (12.2×). Good window to scale Myntra budget.</div>
     </div>
   </div>
 
@@ -403,61 +354,61 @@
   </div>
   <div class="chart-grid">
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">Daily Revenue</div><div class="chart-sub">Total blended revenue per day (₹)</div></div><span class="chart-badge">MTD ₹1.4L</span></div>
+      <div class="chart-top"><div><div class="chart-title">Daily Revenue</div><div class="chart-sub">Total blended revenue per day (₹)</div></div><span class="chart-badge">MTD ₹1.8L</span></div>
       <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">Units Sold Per Day</div><div class="chart-sub">All channels combined</div></div><span class="chart-badge">MTD 885 units</span></div>
+      <div class="chart-top"><div><div class="chart-title">Units Sold Per Day</div><div class="chart-sub">All channels combined</div></div><span class="chart-badge">MTD 1082 units</span></div>
       <div class="chart-wrap"><canvas id="qtyChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">Blended ROAS</div><div class="chart-sub">Total revenue / spend</div></div><span class="chart-badge">MTD 37.84×</span></div>
+      <div class="chart-top"><div><div class="chart-title">Blended ROAS</div><div class="chart-sub">Paid revenue / spend</div></div><span class="chart-badge">MTD 7.08×</span></div>
       <div class="chart-wrap"><canvas id="roasChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">ASP Daily</div><div class="chart-sub">Average Selling Price (₹)</div></div><span class="chart-badge">MTD ₹1,626</span></div>
+      <div class="chart-top"><div><div class="chart-title">ASP Daily</div><div class="chart-sub">Average Selling Price (₹)</div></div><span class="chart-badge">MTD ₹1,634</span></div>
       <div class="chart-wrap"><canvas id="aspChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">Myntra ROAS (Paid)</div><div class="chart-sub">Paid revenue / ad spend</div></div><span class="chart-badge">Latest 11.21×</span></div>
+      <div class="chart-top"><div><div class="chart-title">Myntra ROAS (Paid)</div><div class="chart-sub">Paid revenue / ad spend</div></div><span class="chart-badge">Latest 3.99×</span></div>
       <div class="chart-wrap"><canvas id="mntrRoasChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-top"><div><div class="chart-title">Daily Ad Spend</div><div class="chart-sub">Total paid spend per day (₹)</div></div><span class="chart-badge">MTD ₹38,030</span></div>
+      <div class="chart-top"><div><div class="chart-title">Daily Ad Spend</div><div class="chart-sub">Total paid spend per day (₹)</div></div><span class="chart-badge">MTD ₹55,725</span></div>
       <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
     </div>
     <div class="chart-card wide">
-      <div class="chart-top"><div><div class="chart-title">📉 ROAS Erosion</div><div class="chart-sub">Daily ROAS (bars) vs 7-day rolling average — peak 78.46× → latest 55.71×</div></div><span class="chart-badge" style="background:#fff0f0;color:#b91c1c;border-color:#fecaca;">▼ 29.0% from peak</span></div>
+      <div class="chart-top"><div><div class="chart-title">📉 ROAS Erosion</div><div class="chart-sub">Daily ROAS (bars) vs 7-day rolling average — peak 19.29× → latest 3.99×</div></div><span class="chart-badge" style="background:#fff0f0;color:#b91c1c;border-color:#fecaca;">▼ 79.3% from peak</span></div>
       <div class="chart-wrap tall"><canvas id="erosionChart"></canvas></div>
     </div>
   </div>
 
   <div class="sec-hd">
     <span class="sec-title">Today's Observations · What the Numbers Are Telling Us</span>
-    <span class="sec-tag">Channel-Specific · Latest Available Data · 4 Jun 2026</span>
+    <span class="sec-tag">Channel-Specific · Latest Available Data · 5 Jun 2026</span>
   </div>
   <div class="obs-grid">
     <div class="obs-card myntra">
       <div class="obs-stripe"></div>
       <div class="obs-channel-row"><span class="obs-ch-badge myntra"><span class="ch-dot ch-myntra" style="margin:0"></span>Myntra</span></div>
-      <div class="obs-title">Volume at 231 units — ROAS at 11.21× paid.</div>
-      <div class="obs-body">Myntra posted 231 units on 4 Jun, generating ₹375,703 in GMV on ₹6,793 spend. Paid ROAS at 11.21× with 45 paid orders generating ₹76,153. ASP at ₹1,626. Monitor bid efficiency and SKU mix to maintain blended ROAS above 30×.</div>
+      <div class="obs-title">Volume at 195 units — ROAS at 3.99× paid.</div>
+      <div class="obs-body">Myntra posted 195 units on 5 Jun, generating ₹325,537 in GMV on ₹17,695 spend. Paid ROAS at 3.99× with 43 paid orders generating ₹70,658. ASP at ₹1,669. Monitor bid efficiency and SKU mix to maintain blended ROAS above 30×.</div>
       <div class="obs-divider"></div>
       <div class="obs-stat-row">
-        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--green)">₹375,703</div><div class="obs-stat-lbl">Revenue</div></div>
-        <div class="obs-stat"><div class="obs-stat-val" style="color:#d97706">11.21×</div><div class="obs-stat-lbl">Paid ROAS</div></div>
-        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--green)">231</div><div class="obs-stat-lbl">Units</div></div>
+        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--green)">₹325,537</div><div class="obs-stat-lbl">Revenue</div></div>
+        <div class="obs-stat"><div class="obs-stat-val" style="color:#d97706">3.99×</div><div class="obs-stat-lbl">Paid ROAS</div></div>
+        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--green)">195</div><div class="obs-stat-lbl">Units</div></div>
       </div>
     </div>
     <div class="obs-card amazon">
       <div class="obs-stripe"></div>
       <div class="obs-channel-row"><span class="obs-ch-badge amazon"><span class="ch-dot ch-amazon" style="margin:0"></span>Amazon</span></div>
-      <div class="obs-title">1 units · ₹1,576</div>
-      <div class="obs-body">Amazon showing activity. Monitor listing health, Buy Box win rate, and FBA inventory levels to maintain performance.</div>
+      <div class="obs-title">Zero revenue — urgent investigation required.</div>
+      <div class="obs-body">Amazon generated ₹0 on 5 Jun. Check Seller Central for suppressed listings, account health warnings, FBA stockout on top ASINs, or Buy Box loss. This channel needs immediate attention to restore revenue flow.</div>
       <div class="obs-divider"></div>
       <div class="obs-stat-row">
-        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--green)">₹1,576</div><div class="obs-stat-lbl">Revenue</div></div>
-        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--down)">1</div><div class="obs-stat-lbl">Units</div></div>
+        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--down)">₹0</div><div class="obs-stat-lbl">Revenue</div></div>
+        <div class="obs-stat"><div class="obs-stat-val" style="color:var(--down)">0</div><div class="obs-stat-lbl">Units</div></div>
         <div class="obs-stat"><div class="obs-stat-val" style="color:var(--muted)">—</div><div class="obs-stat-lbl">ROAS</div></div>
       </div>
     </div>
@@ -479,31 +430,19 @@ Chart.defaults.font.size = 11;
 Chart.defaults.color = '#64748b';
 
 
-const labels     = ["5 May", "6 May", "7 May", "8 May", "9 May", "10 May", "11 May", "12 May", "13 May", "14 May", "15 May", "16 May", "17 May", "18 May", "19 May", "20 May", "21 May", "22 May", "23 May", "24 May", "25 May", "26 May", "27 May", "28 May", "29 May", "30 May", "31 May", "1 Jun", "2 Jun", "3 Jun", "4 Jun"];
-const revenue    = [300924, 338952, 232813, 352246, 406226, 362345, 292455, 312648, 264276, 317111, 290011, 267797, 363596, 276892, 300682, 240420, 251352, 242644, 290466, 233066, 238453, 273577, 269735, 419493, 463863, 394491, 439832, 393330, 312424, 354881, 378467];
-const qty        = [183, 194, 139, 209, 238, 213, 173, 176, 156, 197, 173, 161, 219, 164, 175, 147, 147, 141, 171, 137, 148, 167, 165, 259, 290, 240, 268, 242, 189, 221, 233];
-const roas       = [21.1, 27.16, 18.69, 28.49, 32.69, 29.21, 28.74, 26.48, 21.22, 26.15, 24.81, 24.42, 32.08, 25.62, 30.58, 38.12, 58.21, 59.11, 71.69, 57.42, 58.82, 66.8, 78.46, 46.14, 42.45, 17.64, 17.41, 23.4, 47.22, 45.42, 55.71];
-const asp        = [1644, 1747, 1674, 1685, 1706, 1701, 1690, 1776, 1694, 1609, 1676, 1663, 1660, 1688, 1718, 1635, 1709, 1720, 1698, 1701, 1611, 1638, 1634, 1619, 1599, 1643, 1641, 1625, 1653, 1605, 1624];
-const mntrRoas   = [13.57, 12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 11.21];
-const spend      = [14262.6, 12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2];
+const labels     = ["6 May", "7 May", "8 May", "9 May", "10 May", "11 May", "12 May", "13 May", "14 May", "15 May", "16 May", "17 May", "18 May", "19 May", "20 May", "21 May", "22 May", "23 May", "24 May", "25 May", "26 May", "27 May", "28 May", "29 May", "30 May", "31 May", "1 Jun", "2 Jun", "3 Jun", "4 Jun", "5 Jun"];
+const revenue    = [338952, 232813, 352246, 406226, 362345, 292455, 312648, 264276, 317111, 290011, 267797, 363596, 276892, 300682, 240420, 251352, 242644, 290466, 233066, 238453, 273577, 269735, 419493, 463863, 394491, 439832, 393330, 312424, 354881, 378467, 328388];
+const qty        = [194, 139, 209, 238, 213, 173, 176, 156, 197, 173, 161, 219, 164, 175, 147, 147, 141, 171, 137, 148, 167, 165, 259, 290, 240, 268, 242, 189, 221, 233, 197];
+const roas       = [12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99];
+const asp        = [1747, 1674, 1685, 1706, 1701, 1690, 1776, 1694, 1609, 1676, 1663, 1660, 1688, 1718, 1635, 1709, 1720, 1698, 1701, 1611, 1638, 1634, 1619, 1599, 1643, 1641, 1625, 1653, 1605, 1624, 1666];
+const mntrRoas   = [12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99];
+const spend      = [12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2, 17695.2];
 const chData = {
-  all:    { revenue:[300924, 338952, 232813, 352246, 406226, 362345, 292455, 312648, 264276, 317111, 290011, 267797, 363596, 276892, 300682, 240420, 251352, 242644, 290466, 233066, 238453, 273577, 269735, 419493, 463863, 394491, 439832, 393330, 312424, 354881, 378467],    qty:[183, 194, 139, 209, 238, 213, 173, 176, 156, 197, 173, 161, 219, 164, 175, 147, 147, 141, 171, 137, 148, 167, 165, 259, 290, 240, 268, 242, 189, 221, 233],    roas:[21.1, 27.16, 18.69, 28.49, 32.69, 29.21, 28.74, 26.48, 21.22, 26.15, 24.81, 24.42, 32.08, 25.62, 30.58, 38.12, 58.21, 59.11, 71.69, 57.42, 58.82, 66.8, 78.46, 46.14, 42.45, 17.64, 17.41, 23.4, 47.22, 45.42, 55.71],    asp:[1644, 1747, 1674, 1685, 1706, 1701, 1690, 1776, 1694, 1609, 1676, 1663, 1660, 1688, 1718, 1635, 1709, 1720, 1698, 1701, 1611, 1638, 1634, 1619, 1599, 1643, 1641, 1625, 1653, 1605, 1624],    spend:[14262.6, 12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2],   mntrRoas:[13.57, 12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 11.21], color:'#05A081', label:'All Channels' },
-  myntra: { revenue:[299725, 338952, 231563, 352246, 406226, 362345, 292455, 312648, 263637, 317111, 290011, 267797, 363596, 275693, 300682, 240420, 251352, 240989, 290466, 231411, 238453, 271502, 267974, 418352, 461813, 394491, 439832, 391754, 312424, 354881, 375703],   qty:[182, 194, 138, 209, 238, 213, 173, 176, 155, 197, 173, 161, 219, 163, 175, 147, 147, 140, 171, 136, 147, 165, 163, 258, 288, 240, 268, 241, 189, 221, 231],   roas:[21.01, 27.16, 18.59, 28.49, 32.69, 29.21, 28.74, 26.48, 21.17, 26.15, 24.81, 24.42, 32.08, 25.51, 30.58, 38.12, 58.21, 58.7, 71.69, 57.01, 58.82, 66.29, 77.94, 46.02, 42.26, 17.64, 17.41, 23.31, 47.22, 45.42, 55.31],   asp:[1647, 1747, 1678, 1685, 1707, 1701, 1690, 1776, 1701, 1610, 1676, 1663, 1660, 1691, 1718, 1636, 1710, 1721, 1699, 1702, 1622, 1645, 1644, 1622, 1604, 1644, 1641, 1626, 1653, 1606, 1626],   spend:[14262.6, 12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2],  mntrRoas:[21.01, 27.16, 18.59, 28.49, 32.69, 29.21, 28.74, 26.48, 21.17, 26.15, 24.81, 24.42, 32.08, 25.51, 30.58, 38.12, 58.21, 58.7, 71.69, 57.01, 58.82, 66.29, 77.94, 46.02, 42.26, 17.64, 17.41, 23.31, 47.22, 45.42, 55.31], color:'#E91E8C', label:'Myntra' },
-  amazon: { revenue:[1199, 0, 1250, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, 1199, 0, 0, 0, 1655, 0, 1655, 0, 2075, 1761, 1141, 2050, 0, 0, 1576, 0, 0, 1576],   qty:[1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 2, 2, 1, 2, 0, 0, 1, 0, 0, 1],   roas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   asp:[1199, 0, 1250, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, 1199, 0, 0, 0, 1655, 0, 1655, 0, 1038, 881, 1142, 1025, 0, 0, 1576, 0, 0, 1576],   spend:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  mntrRoas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], color:'#FF9900', label:'Amazon' },
-  nykaa:  { revenue:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1188],qty:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],roas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],asp:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1188],spend:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],mntrRoas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], color:'#FC4E9D', label:'NykaaFashion' },
+  all:    { revenue:[338952, 232813, 352246, 406226, 362345, 292455, 312648, 264276, 317111, 290011, 267797, 363596, 276892, 300682, 240420, 251352, 242644, 290466, 233066, 238453, 273577, 269735, 419493, 463863, 394491, 439832, 393330, 312424, 354881, 378467, 328388],    qty:[194, 139, 209, 238, 213, 173, 176, 156, 197, 173, 161, 219, 164, 175, 147, 147, 141, 171, 137, 148, 167, 165, 259, 290, 240, 268, 242, 189, 221, 233, 197],    roas:[12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99],    asp:[1747, 1674, 1685, 1706, 1701, 1690, 1776, 1694, 1609, 1676, 1663, 1660, 1688, 1718, 1635, 1709, 1720, 1698, 1701, 1611, 1638, 1634, 1619, 1599, 1643, 1641, 1625, 1653, 1605, 1624, 1666],    spend:[12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2, 17695.2],   mntrRoas:[12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99], color:'#05A081', label:'All Channels' },
+  myntra: { revenue:[338952, 231563, 352246, 406226, 362345, 292455, 312648, 263637, 317111, 290011, 267797, 363596, 275693, 300682, 240420, 251352, 240989, 290466, 231411, 238453, 271502, 267974, 418352, 461813, 394491, 439832, 391754, 312424, 354881, 375703, 325537],   qty:[194, 138, 209, 238, 213, 173, 176, 155, 197, 173, 161, 219, 163, 175, 147, 147, 140, 171, 136, 147, 165, 163, 258, 288, 240, 268, 241, 189, 221, 231, 195],   roas:[12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99],   asp:[1747, 1678, 1685, 1707, 1701, 1690, 1776, 1701, 1610, 1676, 1663, 1660, 1691, 1718, 1636, 1710, 1721, 1699, 1702, 1622, 1645, 1644, 1622, 1604, 1644, 1641, 1626, 1653, 1606, 1626, 1669],   spend:[12481.8, 12458.4, 12365.4, 12428.4, 12405.6, 10174.8, 11807.4, 12452.4, 12126.6, 11691.0, 10965.0, 11332.8, 10807.8, 9832.2, 6306.6, 4318.2, 4105.2, 4051.8, 4059.0, 4054.2, 4095.6, 3438.0, 9091.1, 10927.5, 22359.6, 25267.5, 16806.8, 6616.2, 7813.8, 6793.2, 17695.2],  mntrRoas:[12.36, 11.25, 14.66, 16.08, 14.48, 15.23, 19.29, 10.35, 14.27, 10.42, 13.37, 12.65, 15.11, 13.84, 11.47, 11.39, 16.71, 17.6, 12.39, 14.47, 12.05, 12.98, 10.22, 10.53, 6.68, 8.29, 5.9, 9.54, 9.44, 12.94, 3.99], color:'#E91E8C', label:'Myntra' },
+  amazon: { revenue:[0, 1250, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, 1199, 0, 0, 0, 1655, 0, 1655, 0, 2075, 1761, 1141, 2050, 0, 0, 1576, 0, 0, 1576, 0],   qty:[0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 2, 2, 1, 2, 0, 0, 1, 0, 0, 1, 0],   roas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],   asp:[0, 1250, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, 1199, 0, 0, 0, 1655, 0, 1655, 0, 1038, 881, 1142, 1025, 0, 0, 1576, 0, 0, 1576, 0],   spend:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  mntrRoas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], color:'#FF9900', label:'Amazon' },
+  nykaa:  { revenue:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1188, 2851],qty:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2],roas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],asp:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1188, 1426],spend:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],mntrRoas:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], color:'#FC4E9D', label:'NykaaFashion' },
 };
-
-const dailyData = {
-  "20260604": {"label": "4 Jun 2026 (Latest available)", "tag": "4 Jun 2026 (Latest available)", "dodLabel": "vs 3 Jun 2026", "channels": {"Myntra": {"qty": 231, "rev": 375703, "spend": 6793, "paid_orders": 45, "paid_rev": 76152, "roas": 11.21, "asp": 1626, "dodQty": "▲ 4.5%", "dodRev": "▲ 5.9%", "dodRoas": "▲ 18.8%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "Amazon": {"qty": 1, "rev": 1576, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 1576, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 1, "rev": 1188, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 1188, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 233, "rev": 378467, "spend": 6793, "paid_orders": 45, "paid_rev": 76152, "roas": 11.21, "blended_roas": 55.71, "asp": 1624, "dodQty": "▲ 5.4%", "dodRev": "▲ 6.6%", "dodRoas": "▲ 18.8%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "verdict": {"tag": "Myntra Strong · Fix Amazon + Nykaa", "myntraRoas": "11.21×", "myntraRoasClass": "green", "amazonRoas": "0×", "nykaaRoas": "0×", "blended": "55.71×"}},
-  "20260603": {"label": "3 Jun 2026", "tag": "3 Jun 2026", "dodLabel": "vs 2 Jun 2026", "channels": {"Myntra": {"qty": 221, "rev": 354881, "spend": 7814, "paid_orders": 43, "paid_rev": 73752, "roas": 9.44, "asp": 1606, "dodQty": "▲ 16.9%", "dodRev": "▲ 13.6%", "dodRoas": "▼ 1.0%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-dn"}, "Amazon": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 221, "rev": 354881, "spend": 7814, "paid_orders": 43, "paid_rev": 73752, "roas": 9.44, "blended_roas": 45.42, "asp": 1606, "dodQty": "▲ 16.9%", "dodRev": "▲ 13.6%", "dodRoas": "▼ 1.0%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-dn"}, "verdict": {"tag": "Myntra Strong · Fix Amazon + Nykaa", "myntraRoas": "9.44× ▼", "myntraRoasClass": "warn", "amazonRoas": "— No Sales", "nykaaRoas": "— No Sales", "blended": "45.42×"}},
-  "20260602": {"label": "2 Jun 2026", "tag": "2 Jun 2026", "dodLabel": "vs 1 Jun 2026", "channels": {"Myntra": {"qty": 189, "rev": 312424, "spend": 6616, "paid_orders": 37, "paid_rev": 63087, "roas": 9.54, "asp": 1653, "dodQty": "▼ 21.6%", "dodRev": "▼ 20.2%", "dodRoas": "▲ 61.7%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-up"}, "Amazon": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "▼ 100.0%", "dodRev": "▼ 100.0%", "dodRoas": "—", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 189, "rev": 312424, "spend": 6616, "paid_orders": 37, "paid_rev": 63087, "roas": 9.54, "blended_roas": 47.22, "asp": 1653, "dodQty": "▼ 21.9%", "dodRev": "▼ 20.6%", "dodRoas": "▲ 61.7%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-up"}, "verdict": {"tag": "Myntra Strong · Fix Amazon + Nykaa", "myntraRoas": "9.54×", "myntraRoasClass": "warn", "amazonRoas": "— No Sales", "nykaaRoas": "— No Sales", "blended": "47.22×"}},
-  "20260601": {"label": "1 Jun 2026", "tag": "1 Jun 2026", "dodLabel": "vs 31 May 2026", "channels": {"Myntra": {"qty": 241, "rev": 391754, "spend": 16807, "paid_orders": 58, "paid_rev": 99149, "roas": 5.9, "asp": 1626, "dodQty": "▼ 10.1%", "dodRev": "▼ 10.9%", "dodRoas": "▼ 28.8%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-dn"}, "Amazon": {"qty": 1, "rev": 1576, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 1576, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 242, "rev": 393330, "spend": 16807, "paid_orders": 58, "paid_rev": 99149, "roas": 5.9, "blended_roas": 23.4, "asp": 1625, "dodQty": "▼ 9.7%", "dodRev": "▼ 10.6%", "dodRoas": "▼ 28.8%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-dn"}, "verdict": {"tag": "Efficiency Watch · Fix Amazon + Nykaa", "myntraRoas": "5.9× ▼", "myntraRoasClass": "down", "amazonRoas": "0×", "nykaaRoas": "— No Sales", "blended": "23.4×"}},
-  "20260531": {"label": "31 May 2026", "tag": "31 May 2026", "dodLabel": "vs 30 May 2026", "channels": {"Myntra": {"qty": 268, "rev": 439832, "spend": 25268, "paid_orders": 125, "paid_rev": 209449, "roas": 8.29, "asp": 1641, "dodQty": "▲ 11.7%", "dodRev": "▲ 11.5%", "dodRoas": "▲ 24.1%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "Amazon": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 268, "rev": 439832, "spend": 25268, "paid_orders": 125, "paid_rev": 209449, "roas": 8.29, "blended_roas": 17.41, "asp": 1641, "dodQty": "▲ 11.7%", "dodRev": "▲ 11.5%", "dodRoas": "▲ 24.1%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "verdict": {"tag": "Myntra Strong · Fix Amazon + Nykaa", "myntraRoas": "8.29×", "myntraRoasClass": "warn", "amazonRoas": "— No Sales", "nykaaRoas": "— No Sales", "blended": "17.41×"}},
-  "20260530": {"label": "30 May 2026", "tag": "30 May 2026", "dodLabel": "vs 29 May 2026", "channels": {"Myntra": {"qty": 240, "rev": 394491, "spend": 22360, "paid_orders": 90, "paid_rev": 149334, "roas": 6.68, "asp": 1644, "dodQty": "▼ 16.7%", "dodRev": "▼ 14.6%", "dodRoas": "▼ 36.6%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-dn"}, "Amazon": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "▼ 100.0%", "dodRev": "▼ 100.0%", "dodRoas": "—", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 240, "rev": 394491, "spend": 22360, "paid_orders": 90, "paid_rev": 149334, "roas": 6.68, "blended_roas": 17.64, "asp": 1644, "dodQty": "▼ 17.2%", "dodRev": "▼ 15.0%", "dodRoas": "▼ 36.6%", "qtyDir": "pill-dn", "revDir": "pill-dn", "roasDir": "pill-dn"}, "verdict": {"tag": "Efficiency Watch · Fix Amazon + Nykaa", "myntraRoas": "6.68× ▼", "myntraRoasClass": "down", "amazonRoas": "— No Sales", "nykaaRoas": "— No Sales", "blended": "17.64×"}},
-  "20260529": {"label": "29 May 2026", "tag": "29 May 2026", "dodLabel": "vs 28 May 2026", "channels": {"Myntra": {"qty": 288, "rev": 461813, "spend": 10928, "paid_orders": 68, "paid_rev": 115021, "roas": 10.53, "asp": 1604, "dodQty": "▲ 11.6%", "dodRev": "▲ 10.4%", "dodRoas": "▲ 3.0%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "Amazon": {"qty": 2, "rev": 2050, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 1025, "dodQty": "▲ 100.0%", "dodRev": "▲ 79.5%", "dodRoas": "—", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-gray"}, "NykaaFashion": {"qty": 0, "rev": 0, "spend": 0, "paid_orders": 0, "paid_rev": 0, "roas": 0, "asp": 0, "dodQty": "—", "dodRev": "—", "dodRoas": "—", "qtyDir": "pill-gray", "revDir": "pill-gray", "roasDir": "pill-gray"}}, "total": {"qty": 290, "rev": 463863, "spend": 10928, "paid_orders": 68, "paid_rev": 115021, "roas": 10.53, "blended_roas": 42.45, "asp": 1600, "dodQty": "▲ 12.0%", "dodRev": "▲ 10.6%", "dodRoas": "▲ 3.0%", "qtyDir": "pill-up", "revDir": "pill-up", "roasDir": "pill-up"}, "verdict": {"tag": "Myntra Strong · Fix Amazon + Nykaa", "myntraRoas": "10.53×", "myntraRoasClass": "green", "amazonRoas": "0×", "nykaaRoas": "— No Sales", "blended": "42.45×"}}
-};
-
-const dateKeyMap = {"2026-06-04": "20260604", "2026-06-03": "20260603", "2026-06-02": "20260602", "2026-06-01": "20260601", "2026-05-31": "20260531", "2026-05-30": "20260530", "2026-05-29": "20260529"};
 
 const GREEN='#05A081', DARK='#1C1C1C', WARN='#d97706', PINK='#E91E8C';
 const gridOpts = {color:'rgba(0,0,0,.05)'};
@@ -594,118 +533,6 @@ document.querySelectorAll('.ch-filter').forEach(btn => {
   });
 })();
 
-// Daily data & filter
-function fmt(n){return n?'₹'+Number(n).toLocaleString('en-IN'):'₹0';}
-function pillClass(d){return d==='up'?'pill-up':d==='dn'?'pill-dn':'pill-gray';}
-
-function applyDailyFilter(key,preAgg){
-  const d=preAgg||dailyData[key]; if(!d) return;
-  document.getElementById('heroDateTag').textContent='Latest Available · '+d.label;
-  document.getElementById('chPerfTag').textContent=d.label+' · '+d.dodLabel+' (D-o-D)';
-  const v=d.verdict,t=d.total;
-  document.getElementById('verdictPanel').innerHTML=`
-    <div class="verdict-label">Daily Verdict · ${d.label}</div>
-    <div class="verdict-tag">${v.tag}</div>
-    <div class="vrow"><span class="vkey">Revenue</span><span class="vval green">${fmt(t.rev)}</span></div>
-    <div class="vrow"><span class="vkey">Units Sold</span><span class="vval">${t.qty}</span></div>
-    <div class="vrow"><span class="vkey">Ad Spend</span><span class="vval">${fmt(t.spend)}</span></div>
-    <div class="vrow"><span class="vkey">ASP</span><span class="vval">${fmt(t.asp)}</span></div>
-    <div class="vrow"><span class="vkey">Myntra ROAS</span><span class="vval ${v.myntraRoasClass}">${v.myntraRoas}</span></div>
-    <div class="vrow"><span class="vkey">Amazon ROAS</span><span class="vval muted">${v.amazonRoas}</span></div>
-    <div class="vrow"><span class="vkey">Nykaa ROAS</span><span class="vval muted">${v.nykaaRoas}</span></div>
-    <div class="vrow"><span class="vkey">Blended ROAS</span><span class="vval green">${v.blended}</span></div>`;
-  const chs=[{key:'Myntra',dot:'ch-myntra'},{key:'Amazon',dot:'ch-amazon'},{key:'NykaaFashion',dot:'ch-nykaa'}];
-  let rows='';
-  chs.forEach((ch_item)=>{
-    const key=ch_item.key, dot=ch_item.dot;
-    const c=d.channels[key];
-    rows+=`<tr>
-      <td><span class="ch-dot ${dot}"></span>${key}</td>
-      <td>${c.qty}</td><td>${fmt(c.rev)}</td>
-      <td>${c.asp?fmt(c.asp):'<span class="na">—</span>'}</td>
-      <td>${fmt(c.spend)}</td><td>${c.paid_orders}</td><td>${fmt(c.paid_rev)}</td>
-      <td>${c.roas?c.roas+'×':'<span class="na">—</span>'}</td>
-      <td><span class="pill ${pillClass(c.qtyDir)}">${c.dodQty}</span></td>
-      <td><span class="pill ${pillClass(c.revDir)}">${c.dodRev}</span></td>
-      <td><span class="pill ${pillClass(c.roasDir)}">${c.dodRoas}</span></td></tr>`;
-  });
-  rows+=`<tr><td><span class="ch-dot ch-total"></span><strong>Total</strong></td>
-    <td><strong>${t.qty}</strong></td><td><strong>${fmt(t.rev)}</strong></td>
-    <td><strong>${fmt(t.asp)}</strong></td><td><strong>${fmt(t.spend)}</strong></td>
-    <td><strong>${t.paid_orders}</strong></td><td><strong>${fmt(t.paid_rev)}</strong></td>
-    <td><strong>${t.roas}×</strong></td>
-    <td><span class="pill ${pillClass(t.qtyDir)}">${t.dodQty}</span></td>
-    <td><span class="pill ${pillClass(t.revDir)}">${t.dodRev}</span></td>
-    <td><span class="pill ${pillClass(t.roasDir)}">${t.dodRoas}</span></td></tr>`;
-  document.getElementById('chTableBody').innerHTML=rows;
-}
-
-function toISO(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function keysInRange(s,e){const keys=[];const cur=new Date(s);const end=new Date(e);while(cur<=end){const k=dateKeyMap[toISO(cur)];if(k)keys.push(k);cur.setDate(cur.getDate()+1);}return keys;}
-
-function aggregateRange(keys){
-  const valid=keys.filter(k=>dailyData[k]); if(!valid.length)return null; if(valid.length===1)return dailyData[valid[0]];
-  const channels=['Myntra','Amazon','NykaaFashion']; const agg={channels:{},total:{}};
-  const fd=dailyData[valid[0]],ld=dailyData[valid[valid.length-1]];
-  agg.label=fd.label+' – '+ld.label; agg.tag=agg.label; agg.dodLabel='('+valid.length+'-day range)';
-  const t={qty:0,rev:0,spend:0,paid_orders:0,paid_rev:0};
-  channels.forEach(ch=>{const c={qty:0,rev:0,spend:0,paid_orders:0,paid_rev:0};
-    valid.forEach(k=>{const s=dailyData[k].channels[ch];c.qty+=s.qty;c.rev+=s.rev;c.spend+=s.spend;c.paid_orders+=s.paid_orders;c.paid_rev+=s.paid_rev;});
-    c.roas=c.spend?Math.round(c.paid_rev/c.spend*100)/100:0; c.asp=c.qty?Math.round(c.rev/c.qty):0;
-    c.dodQty=valid.length+'d';c.dodRev='—';c.dodRoas='—';c.qtyDir='gray';c.revDir='gray';c.roasDir='gray';
-    agg.channels[ch]=c; t.qty+=c.qty;t.rev+=c.rev;t.spend+=c.spend;t.paid_orders+=c.paid_orders;t.paid_rev+=c.paid_rev;
-  });
-  t.roas=t.spend?Math.round(t.paid_rev/t.spend*100)/100:0; t.blended_roas=t.spend?Math.round(t.rev/t.spend*100)/100:0;
-  t.asp=t.qty?Math.round(t.rev/t.qty):0; t.dodQty='—';t.dodRev='—';t.dodRoas='—';t.qtyDir='gray';t.revDir='gray';t.roasDir='gray';
-  agg.total=t; const mr=agg.channels['Myntra'].roas;
-  agg.verdict={tag:valid.length+'-Day Range Summary',myntraRoas:mr?mr+'×':'—',myntraRoasClass:mr>10?'green':mr>7?'warn':'down',amazonRoas:'— No ad spend',nykaaRoas:'— No Sales',blended:t.blended_roas?t.blended_roas+'×':'—'};
-  return agg;
-}
-
-let _fpApplyPending = null;  // holds selected dates until Apply is clicked
-
-const fpInst = flatpickr('#dateFilter', {
-  mode:'range', dateFormat:'d M Y', allowInput:false, clickOpens:true,
-  closeOnSelect:false,
-  minDate:new Date('2026-05-29'), maxDate:new Date('2026-06-04'),
-  defaultDate:[new Date('2026-06-04'),new Date('2026-06-04')],
-  showMonths:1, disableMobile:false,
-  onReady(_,__,fp){
-    // Badge row
-    const badge = document.createElement('div');
-    badge.className = 'fp-range-badge'; badge.id = 'fpBadge';
-    badge.innerHTML = 'Showing: <span>Latest available data</span>';
-    fp.calendarContainer.appendChild(badge);
-    // Apply button row
-    const footer = document.createElement('div');
-    footer.className = 'fp-footer';
-    const applyBtn = document.createElement('button');
-    applyBtn.className = 'fp-apply-btn'; applyBtn.textContent = 'Apply';
-    applyBtn.addEventListener('click', () => {
-      if (!_fpApplyPending || !_fpApplyPending.length) return;
-      const sel = _fpApplyPending;
-      const s = toISO(sel[0]), e = sel[1] ? toISO(sel[1]) : s;
-      fp.close();
-      if (s === e) { const k = dateKeyMap[s]; if (k) applyDailyFilter(k); }
-      else { const keys = keysInRange(s,e), agg = aggregateRange(keys); if (agg) applyDailyFilter(null,agg); }
-    });
-    const clearBtn = document.createElement('button');
-    clearBtn.className = 'fp-clear-btn'; clearBtn.textContent = 'Clear';
-    clearBtn.addEventListener('click', () => { _fpApplyPending=null; fp.clear(); fp.close(); });
-    footer.appendChild(clearBtn); footer.appendChild(applyBtn);
-    fp.calendarContainer.appendChild(footer);
-  },
-  onChange(sel){
-    _fpApplyPending = sel.length ? sel : null;
-    const b=document.getElementById('fpBadge'); if(!b) return;
-    if(sel.length===1){const k=dateKeyMap[toISO(sel[0])];b.innerHTML='Selected: <span>'+(dailyData[k]?.label||toISO(sel[0]))+'</span>';}
-    else if(sel.length===2){const days=keysInRange(toISO(sel[0]),toISO(sel[1])).length;b.innerHTML='Range: <span>'+days+' day'+(days!==1?'s':'')+' — click Apply</span>';}
-  },
-  // Do NOT apply on close — only the Apply button triggers the filter
-  onClose(){ /* intentionally empty */ },
-});
-
-applyDailyFilter('20260604');
 </script>
 </body>
 </html>
